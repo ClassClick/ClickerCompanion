@@ -6,18 +6,9 @@ on:
       - "beta-v*"
 
 jobs:
-  changelog:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Generate release changelog"
-        uses: heinrichreimer/github-changelog-generator-action@v2.3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   create_release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: changelog
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
@@ -29,7 +20,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${{ needs.changelog.outputs.changelog }}
           draft: false
           prerelease: ${{ contains(github.ref, 'beta') }}
 
@@ -70,7 +60,7 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_name: "${{runner.os}}-${{matrix.OUT_FILE_NAME}}"
-          asset_path: "${{env.working-directory}}/release/build/${{matrix.OUT_FILE_NAME}}"
+          asset_path: "./release/build/${{matrix.OUT_FILE_NAME}}"
           asset_content_type: ${{ matrix.ASSET_MIME }}
 
   purge_release_if_failed:
@@ -79,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ failure() || cancelled() }}
     steps:
-      - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+      - uses: dev-drprasad/delete-tag-and-release@v0.2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

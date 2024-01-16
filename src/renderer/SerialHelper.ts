@@ -45,6 +45,8 @@ class JSONTransformer {
  * Does all things serial :*((
  */
 export default class SerialHelper {
+  private static _instance: SerialHelper;
+
   private serialPort: SerialPort | null = null;
 
   private inputStream: ReadableStream<any> | null = null;
@@ -99,7 +101,7 @@ export default class SerialHelper {
           JSON.stringify({
             type: 'remove_pairing',
             data: { macaddr: device.mac_address },
-          }),
+          } as ClickerEvent),
         );
       });
 
@@ -121,11 +123,13 @@ export default class SerialHelper {
   private async readLoop() {
     if (!this.reader) return;
 
+    console.log('test');
     while (this.connected) {
       // eslint-disable-next-line no-await-in-loop
       const { value, done } = await this.reader.read();
       if (value) {
         console.log(value);
+        this.handleEvent(value);
       }
       if (done) {
         this.reader.releaseLock();
@@ -142,4 +146,104 @@ export default class SerialHelper {
     });
     writer.releaseLock();
   }
+
+  private handleEvent(event: HubEvent) {
+    switch (event.type) {
+      case 'pairing':
+        if (
+          this.foundDevices.some((obj) => obj.id === event.data.id) ||
+          this.connectedDevices.some((obj) => obj.id === event.data.id)
+        )
+          return;
+
+        this.foundDevices.push({
+          id: event.data.id,
+          mac_address: event.data.macaddr,
+        } as IDevice);
+        // TODO: trigger a rerender in react :3
+        break;
+      case 'answer':
+        break;
+      case 'power_status':
+        break;
+    }
+  }
+
+  public peerDevice(id: number) {
+    if (this.connectedDevices.some((obj) => obj.id === id)) return;
+    if (!this.foundDevices.some((obj) => obj.id === id)) return;
+
+    let device: IDevice | undefined = this.foundDevices.find(
+      (obj) => obj.id === id,
+    );
+
+    if (device) {
+      this.writeToStream(
+        JSON.stringify({
+          type: 'accept_pairing',
+          data: {
+            macaddr: device.mac_address,
+          },
+        } as ClickerEvent),
+      );
+
+      this.connectedDevices.push(device as IDevice);
+      this.foundDevices = this.foundDevices.filter((obj) => obj.id !== id);
+      // TODO: trigger a rerender in react :3
+    }
+  }
 }
+
+type HubEvent =
+  | {
+      type: 'pairing';
+      data: {
+        id: Number;
+        macaddr: string;
+      };
+    }
+  | {
+      type: 'answer';
+      data: { id: Number; timeToAnswer: Number; answer: Number };
+    }
+  | {
+      type: 'power_status';
+      data: {
+        id: Number;
+        isCharging: boolean;
+        usbPowerConnected: boolean;
+        batteryVoltage: Number;
+      };
+    };
+
+type ClickerEvent =
+  | {
+      type: 'set_id';
+      data: {
+        id: Number;
+      };
+    }
+  | {
+      type: 'end_question';
+      data: {
+        correct_answer: Number;
+      };
+    }
+  | {
+      type: 'new_question';
+      data: {
+        amount_answers: Number;
+      };
+    }
+  | {
+      type: 'remove_pairing';
+      data: {
+        macaddr: string;
+      };
+    }
+  | {
+      type: 'accept_pairing';
+      data: {
+        macaddr: string;
+      };
+    };

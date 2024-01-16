@@ -30,7 +30,10 @@ export type IDatabaseQuery =
       questionId: Number;
     };
 
-export interface IDevice {} // TODO: fix this as well
+export interface IDevice {
+  id: Number;
+  mac_address: String;
+} // TODO: fix this as well
 
 export interface IAnswer {
   id: Number | null;

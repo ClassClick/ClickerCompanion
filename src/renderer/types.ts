@@ -38,12 +38,12 @@ export interface IAnswer {
 }
 
 export interface IQuestion {
-  id: Number | null;
+  id: Number;
   quiz_id: Number;
-  answer_1: string;
-  answer_2: string;
-  answer_3: string;
-  answer_4: string;
+  answer_1: string | null;
+  answer_2: string | null;
+  answer_3: string | null;
+  answer_4: string | null;
   answer_1_valid: boolean;
   answer_2_valid: boolean;
   answer_3_valid: boolean;

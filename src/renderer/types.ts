@@ -1,6 +1,13 @@
 import React from 'react';
 
-export type IPageNames = 'home' | 'quizzes' | 'reports' | 'settings';
+export type IPageNames =
+  | 'home'
+  | 'quizzes'
+  | 'reports'
+  | 'settings'
+  | 'quizinit'
+  | 'quizquestion'
+  | 'quizend';
 
 export type IDatabaseQuery =
   | {
@@ -69,3 +76,57 @@ export type Props = {
   // setSelectedQuiz: React.Dispatch<React.SetStateAction<IQuiz>>;
   // selectedQuiz: IQuiz;
 };
+
+export type SerialClickerEvent =
+  | {
+      type: 'pairing';
+      data: {
+        id: Number;
+        macaddr: string;
+      };
+    }
+  | {
+      type: 'answer';
+      data: { id: Number; timeToAnswer: Number; answer: Number };
+    }
+  | {
+      type: 'power_status';
+      data: {
+        id: Number;
+        isCharging: boolean;
+        usbPowerConnected: boolean;
+        batteryVoltage: Number;
+      };
+    };
+
+export type SerialHubEvent =
+  | {
+      type: 'set_id';
+      data: {
+        id: Number;
+      };
+    }
+  | {
+      type: 'end_question';
+      data: {
+        correct_answer: Number;
+      };
+    }
+  | {
+      type: 'new_question';
+      data: {
+        amount_answers: Number;
+      };
+    }
+  | {
+      type: 'remove_pairing';
+      data: {
+        macaddr: string;
+      };
+    }
+  | {
+      type: 'accept_pairing';
+      data: {
+        macaddr: string;
+      };
+    };

@@ -91,7 +91,11 @@ export default class SerialHelper {
       return;
     }
 
-    await this.serialPort.open({ baudRate: 115200 });
+    try {
+      await this.serialPort.open({ baudRate: 115200 });
+    } catch (err) {
+      return;
+    }
 
     const encoder = new TextEncoderStream();
     this.outputDone = encoder.readable.pipeTo(this.serialPort.writable);

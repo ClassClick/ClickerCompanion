@@ -8,7 +8,7 @@ import DevicesList from '../../components/quiz/quizinit/DevicesList';
 import PairingDevice from '../../components/quiz/quizinit/PairingDevice';
 import ConnectedDevice from '../../components/quiz/quizinit/ConnectedDevice';
 import SerialHelper from '../../SerialHelper';
-import { IDevice } from '../../types';
+import { IDevice, IQuiz } from '../../types';
 
 type Props = {
   setCurrentQuizPage: React.Dispatch<
@@ -17,6 +17,8 @@ type Props = {
   serial: SerialHelper;
   connectedDevices: IDevice[];
   foundDevices: IDevice[];
+  selectedQuiz: IQuiz;
+  setQuizStarted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function QuizInit({
@@ -24,9 +26,15 @@ export default function QuizInit({
   serial,
   connectedDevices,
   foundDevices,
+  setQuizStarted,
+  selectedQuiz,
 }: Props) {
   return (
-    <MenuWrapper serial={serial} setCurrentQuizPage={setCurrentQuizPage}>
+    <MenuWrapper
+      selectedQuiz={selectedQuiz}
+      serial={serial}
+      setCurrentQuizPage={setCurrentQuizPage}
+    >
       <div className="flex flex-col w-full">
         <div className="flex flex-row flex-grow mt-2 mx-2">
           <div className="flex flex-col grow items-center">
@@ -48,7 +56,7 @@ export default function QuizInit({
         <div className="flex flex-row bg-[#000]/60 rounded-default h-[100px] m-2 justify-end">
           <div
             onClick={() => {
-              setCurrentQuizPage('quizquestion');
+              setQuizStarted(true);
             }}
             className="self-center flex items-center rounded-[5px] justify-center bg-[#1af] w-[150px] max-w-[150px] h-[80px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#45bdff] flex-shrink-0"
           >

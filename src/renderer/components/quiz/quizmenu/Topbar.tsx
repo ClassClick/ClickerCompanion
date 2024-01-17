@@ -12,7 +12,7 @@ export default function Topbar({ serial }: Props) {
       <div className="p-3 mr-3 text-[18px]">
         <p>
           {serial?.connected
-            ? 'ClassClicker is connected'
+            ? `ClassClicker is connected`
             : 'ClassClicker not connected'}
         </p>
       </div>

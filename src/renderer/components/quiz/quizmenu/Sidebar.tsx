@@ -5,12 +5,14 @@ import 'tailwindcss/tailwind.css';
 import * as Icons from 'react-icons/bi';
 
 import logo from 'assets/logo.svg';
-import { IPageNames } from '../../../types';
+import { IPageNames, IQuiz } from '../../../types';
 
 export default function Sidebar({
-  setCurrentPage: setCurrentQuizPage,
+  setCurrentPage,
+  selectedQuiz,
 }: {
   setCurrentPage: React.Dispatch<React.SetStateAction<IPageNames>>;
+  selectedQuiz: IQuiz;
 }) {
   return (
     <div className="flex flex-col">
@@ -19,25 +21,27 @@ export default function Sidebar({
       </div>
       <div className="flex flex-col flex-grow w-[250px] bg-[#000]/60 backdrop-saturate-[80%] my-4 ml-4 mr-2 rounded-default shrink-0">
         <div className="flex flex-col flex-grow items-center">
-          <p className="text-[24px]">Quiz Title</p>
-          <p>Quiz Description</p>
+          <p className="text-[24px]">{selectedQuiz.title}</p>
+          <p className="max-w-[240px] overflow-hidden">
+            {selectedQuiz.description}
+          </p>
 
           <div className="mt-auto flex flex-col">
-            <div
+            {/* <div
               onClick={() => {
-                setCurrentQuizPage('home');
+                setCurrentPage('home');
               }}
               className="self-center flex items-center rounded-[5px] justify-center bg-[#1af] w-[230px] max-w-[230px] h-[40px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#45bdff] flex-shrink-0"
             >
-              <p>EDIT QUIZ</p>
-            </div>
+              <p>Edit Quiz</p>
+            </div> */}
             <div
               onClick={() => {
-                setCurrentQuizPage('home');
+                setCurrentPage('home');
               }}
               className="self-center flex items-center rounded-[5px] justify-center bg-[#f33] w-[230px] max-w-[230px] h-[40px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#ff6262] flex-shrink-0"
             >
-              <p>EXIT QUIZ</p>
+              <p>Exit Quiz</p>
             </div>
           </div>
         </div>

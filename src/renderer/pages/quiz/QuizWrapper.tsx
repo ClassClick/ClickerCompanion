@@ -3,18 +3,55 @@ import QuizEnd from './QuizEnd';
 import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
 import { Props } from '../../types';
+import { TestQuiz, TestQuizQuestions } from './TestQuiz';
 
 export default function QuizWrapper({
-  selectedQuiz,
+  // selectedQuiz, // TODO: USE THIS AGAIN PLEASE
   serial,
   foundDevices,
-  setFoundDevices,
-  setConnectedDevices,
   connectedDevices,
 }: Props) {
   const [currentQuizPage, setCurrentQuizPage] = useState<
     'quizinit' | 'quizquestion' | 'quizend'
   >('quizinit');
+
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(10);
+
+  if (quizStarted && currentQuizPage === 'quizinit') {
+    setCurrentQuizPage('quizquestion');
+    setSelectedQuestion(0);
+  }
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timerId = setInterval(() => {
+        setTimeRemaining((prevCount) => prevCount - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    }
+    if (timeRemaining === 0 && !showAnswer) {
+      const timerId = setInterval(() => {
+        setShowAnswer(true);
+        setTimeRemaining(10);
+      }, 1000);
+      return () => clearInterval(timerId);
+    }
+    if (timeRemaining === 0 && showAnswer) {
+      const timerId = setInterval(() => {
+        setShowAnswer(false);
+        setSelectedQuestion((prevCount) => prevCount + 1);
+        setTimeRemaining(10);
+      }, 1000);
+      return () => clearInterval(timerId);
+    }
+  }, [timeRemaining, showAnswer]);
+
+  const currentQuestion = TestQuizQuestions[selectedQuestion];
+  const selectedQuiz = TestQuiz;
 
   if (currentQuizPage === 'quizinit')
     return (
@@ -23,10 +60,18 @@ export default function QuizWrapper({
         setCurrentQuizPage={setCurrentQuizPage}
         connectedDevices={connectedDevices}
         foundDevices={foundDevices}
+        setQuizStarted={setQuizStarted}
+        selectedQuiz={selectedQuiz}
       />
     );
   if (currentQuizPage === 'quizquestion')
-    return <QuizQuestion setCurrentQuizPage={setCurrentQuizPage} />;
+    return (
+      <QuizQuestion
+        question={currentQuestion}
+        timeRemaining={timeRemaining}
+        showAnswer={showAnswer}
+      />
+    );
   if (currentQuizPage === 'quizend')
     return <QuizEnd setCurrentQuizPage={setCurrentQuizPage} />;
 }

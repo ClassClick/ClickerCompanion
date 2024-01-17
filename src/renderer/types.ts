@@ -42,6 +42,7 @@ export interface IAnswer {
 export interface IQuestion {
   id: number;
   quiz_id: number;
+  question: string;
   answer_1: string | null;
   answer_2: string | null;
   answer_3: string | null;

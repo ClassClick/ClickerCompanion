@@ -1,8 +1,8 @@
 import React from 'react';
-import '../../globals.css';
-import '../../fonts.css';
+import 'src/renderer/globals.css';
+import 'src/renderer/fonts.css';
 import 'tailwindcss/tailwind.css';
-import { IPageNames } from '../../types';
+import { IPageNames } from '../../../types';
 
 type IProps = {
   name: String;

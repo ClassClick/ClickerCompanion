@@ -12,16 +12,16 @@ export default function Quizzes({ setCurrentPage }: Props) {
   return (
     <MenuWrapper setCurrentPage={setCurrentPage}>
       <QuizList name="Quizzes">
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" />
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
+        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
 
       </QuizList>
     </MenuWrapper>

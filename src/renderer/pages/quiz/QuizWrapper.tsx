@@ -36,19 +36,23 @@ export default function QuizWrapper({
     if (timeRemaining === 0 && !showAnswer) {
       const timerId = setInterval(() => {
         setShowAnswer(true);
-        setTimeRemaining(10);
+        setTimeRemaining(3);
       }, 1000);
       return () => clearInterval(timerId);
     }
     if (timeRemaining === 0 && showAnswer) {
       const timerId = setInterval(() => {
         setShowAnswer(false);
-        setSelectedQuestion((prevCount) => prevCount + 1);
+        if (selectedQuestion + 1 >= TestQuizQuestions.length) {
+          setCurrentQuizPage('quizend');
+        } else {
+          setSelectedQuestion((prevCount) => prevCount + 1);
+        }
         setTimeRemaining(10);
       }, 1000);
       return () => clearInterval(timerId);
     }
-  }, [timeRemaining, showAnswer]);
+  }, [timeRemaining, showAnswer, selectedQuestion]);
 
   const currentQuestion = TestQuizQuestions[selectedQuestion];
   const selectedQuiz = TestQuiz;
@@ -73,5 +77,11 @@ export default function QuizWrapper({
       />
     );
   if (currentQuizPage === 'quizend')
-    return <QuizEnd setCurrentQuizPage={setCurrentQuizPage} />;
+    return (
+      <QuizEnd
+        selectedQuiz={selectedQuiz}
+        serial={serial}
+        setCurrentQuizPage={setCurrentQuizPage}
+      />
+    );
 }

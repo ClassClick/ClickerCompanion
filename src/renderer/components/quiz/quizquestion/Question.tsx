@@ -41,8 +41,12 @@ export default function Question({
       <div className="grid grid-cols-2 grid-rows-2 gap-5 w-[99%] h-screen max-h-screen flex-wrap t-2 mb-4 mt-2 rounded-default justify-center text-[48px] text-black_text">
         {answer1 !== null && (
           <div
-            className={`flex h-auto w-full bg-[#0FF]/80 t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
-              showAnswer ? (answer1_valid ? 'bg-[#0a0]' : 'bg-[#f33]') : ''
+            className={`flex h-auto w-full t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
+              showAnswer
+                ? answer1_valid
+                  ? 'bg-[#0a0]'
+                  : 'bg-[#f33]'
+                : 'bg-[#0FF]/80'
             }`}
           >
             {answer1}
@@ -50,8 +54,12 @@ export default function Question({
         )}
         {answer2 !== null && (
           <div
-            className={`flex h-auto w-full bg-[#F0F]/80 t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
-              showAnswer ? (answer2_valid ? 'bg-[#0a0]' : 'bg-[#f33]') : ''
+            className={`flex h-auto w-full t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
+              showAnswer
+                ? answer2_valid
+                  ? 'bg-[#0a0]'
+                  : 'bg-[#f33]'
+                : 'bg-[#F0F]/80'
             }`}
           >
             {answer2}
@@ -59,8 +67,12 @@ export default function Question({
         )}
         {answer4 !== null && (
           <div
-            className={`flex h-auto w-full bg-[#19FF19]/80 t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
-              showAnswer ? (answer4_valid ? 'bg-[#0a0]' : 'bg-[#f33]') : ''
+            className={`flex h-auto w-full t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
+              showAnswer
+                ? answer4_valid
+                  ? 'bg-[#0a0]'
+                  : 'bg-[#f33]'
+                : 'bg-[#19FF19]/80'
             }`}
           >
             {answer4}
@@ -68,8 +80,12 @@ export default function Question({
         )}
         {answer3 !== null && (
           <div
-            className={`flex h-auto w-full bg-[#FF0]/80 t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
-              showAnswer ? (answer3_valid ? 'bg-[#0a0]' : 'bg-[#f33]') : ''
+            className={`flex h-auto w-full t-2 mb-4 mt-2 ml-2 mr-4 rounded-default justify-center items-center ${
+              showAnswer
+                ? answer3_valid
+                  ? 'bg-[#0a0]'
+                  : 'bg-[#f33]'
+                : 'bg-[#FF0]/80'
             }`}
           >
             {answer3}

@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import '../../globals.css';
-import '../../fonts.css';
+import 'src/renderer/globals.css';
+import 'src/renderer/fonts.css';
 import 'tailwindcss/tailwind.css';
-import { Props } from '../../types';
+import { Props } from '../../../types';
 
 export default function Topbar({ serial }: Props) {
   return (
@@ -12,7 +12,7 @@ export default function Topbar({ serial }: Props) {
       <div className="p-3 mr-3 text-[18px]">
         <p>
           {serial?.connected
-            ? 'ClassClicker is connected'
+            ? `ClassClicker is connected`
             : 'ClassClicker not connected'}
         </p>
       </div>

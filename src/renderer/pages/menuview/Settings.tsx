@@ -9,7 +9,7 @@ import MenuWrapper from '../../components/menuview/MenuWrapper';
 export default function Settings({ setCurrentPage }: Props) {
   return (
     <MenuWrapper setCurrentPage={setCurrentPage}>
-      <p>settings</p>
+      <p>settings settings</p>
     </MenuWrapper>
   );
 }

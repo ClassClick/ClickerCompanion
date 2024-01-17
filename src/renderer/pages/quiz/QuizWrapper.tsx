@@ -45,6 +45,8 @@ export default function QuizWrapper({
         setShowAnswer(false);
         if (selectedQuestion + 1 >= TestQuizQuestions.length) {
           setCurrentQuizPage('quizend');
+          setSelectedQuestion(0);
+          setShowAnswer(false);
         } else {
           setSelectedQuestion((prevCount) => prevCount + 1);
         }
@@ -82,6 +84,7 @@ export default function QuizWrapper({
         selectedQuiz={selectedQuiz}
         serial={serial}
         setCurrentQuizPage={setCurrentQuizPage}
+        setQuizStarted={setQuizStarted}
       />
     );
 }

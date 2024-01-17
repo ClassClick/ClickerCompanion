@@ -11,12 +11,14 @@ type Props = {
   setCurrentQuizPage: React.Dispatch<
     React.SetStateAction<'quizinit' | 'quizquestion' | 'quizend'>
   >;
+  setQuizStarted: React.Dispatch<React.SetStateAction<boolean>>;
   serial: SerialHelper;
   selectedQuiz: IQuiz;
 };
 
 export default function QuizEnd({
   setCurrentQuizPage,
+  setQuizStarted,
   serial,
   selectedQuiz,
 }: Props) {
@@ -37,6 +39,7 @@ export default function QuizEnd({
           <div
             onClick={() => {
               setCurrentQuizPage('quizinit');
+              setQuizStarted(false);
             }}
             className="self-center flex items-center rounded-[5px] justify-center bg-[#1af] w-[150px] max-w-[150px] h-[80px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#45bdff] flex-shrink-0"
           >

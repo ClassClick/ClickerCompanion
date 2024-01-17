@@ -1,13 +1,8 @@
 import React from 'react';
+// eslint-disable-next-line import/no-cycle
+import SerialHelper from './SerialHelper';
 
-export type IPageNames =
-  | 'home'
-  | 'quizzes'
-  | 'reports'
-  | 'settings'
-  | 'quizinit'
-  | 'quizquestion'
-  | 'quizend';
+export type IPageNames = 'home' | 'quizzes' | 'reports' | 'settings' | 'quiz';
 
 export type IDatabaseQuery =
   | {
@@ -17,36 +12,36 @@ export type IDatabaseQuery =
   | {
       type: 'request';
       requestFor: 'quiz';
-      quizId: Number;
+      quizId: number;
     }
   | {
       type: 'request';
       requestFor: 'questions';
-      quizId: Number;
+      quizId: number;
     }
   | {
       type: 'request';
       requestFor: 'question';
-      questionId: Number;
+      questionId: number;
     };
 
 export interface IDevice {
-  id: Number;
+  id: number;
   mac_address: String;
 } // TODO: fix this as well
 
 export interface IAnswer {
-  id: Number | null;
-  device_id: Number;
-  question_id: Number;
-  room_id: Number;
+  id: number | null;
+  device_id: number;
+  question_id: number;
+  room_id: number;
   timestamp: Date;
   answer: string; // TODO: make better fucking name for this
 }
 
 export interface IQuestion {
-  id: Number;
-  quiz_id: Number;
+  id: number;
+  quiz_id: number;
   answer_1: string | null;
   answer_2: string | null;
   answer_3: string | null;
@@ -58,7 +53,7 @@ export interface IQuestion {
 }
 
 export interface IQuiz {
-  id: Number | null;
+  id: number | null;
   title: string;
   description: string;
   created_at: Date;
@@ -66,67 +61,18 @@ export interface IQuiz {
 }
 
 export interface IRoom {
-  id: Number | null;
-  quiz_id: Number;
+  id: number | null;
+  quiz_id: number;
   started: Date;
 }
 
 export type Props = {
-  setCurrentPage: React.Dispatch<React.SetStateAction<IPageNames>>;
-  // setSelectedQuiz: React.Dispatch<React.SetStateAction<IQuiz>>;
-  // selectedQuiz: IQuiz;
+  setCurrentPage?: React.Dispatch<React.SetStateAction<IPageNames>>;
+  selectedQuiz?: IQuiz;
+  setSelectedQuiz?: React.Dispatch<React.SetStateAction<IQuiz>>;
+  foundDevices?: IDevice[];
+  setFoundDevices?: React.Dispatch<React.SetStateAction<IDevice[]>>;
+  connectedDevices?: IDevice[];
+  setConnectedDevices?: React.Dispatch<React.SetStateAction<IDevice[]>>;
+  serial?: SerialHelper;
 };
-
-export type SerialClickerEvent =
-  | {
-      type: 'pairing';
-      data: {
-        id: Number;
-        macaddr: string;
-      };
-    }
-  | {
-      type: 'answer';
-      data: { id: Number; timeToAnswer: Number; answer: Number };
-    }
-  | {
-      type: 'power_status';
-      data: {
-        id: Number;
-        isCharging: boolean;
-        usbPowerConnected: boolean;
-        batteryVoltage: Number;
-      };
-    };
-
-export type SerialHubEvent =
-  | {
-      type: 'set_id';
-      data: {
-        id: Number;
-      };
-    }
-  | {
-      type: 'end_question';
-      data: {
-        correct_answer: Number;
-      };
-    }
-  | {
-      type: 'new_question';
-      data: {
-        amount_answers: Number;
-      };
-    }
-  | {
-      type: 'remove_pairing';
-      data: {
-        macaddr: string;
-      };
-    }
-  | {
-      type: 'accept_pairing';
-      data: {
-        macaddr: string;
-      };
-    };

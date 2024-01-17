@@ -5,11 +5,10 @@ import 'tailwindcss/tailwind.css';
 import * as Icons from 'react-icons/bi';
 
 import logo from 'assets/logo.svg';
-import SidebarButton from './SidebarButton';
 import { IPageNames } from '../../../types';
 
 export default function Sidebar({
-  setCurrentPage,
+  setCurrentPage: setCurrentQuizPage,
 }: {
   setCurrentPage: React.Dispatch<React.SetStateAction<IPageNames>>;
 }) {
@@ -26,7 +25,7 @@ export default function Sidebar({
           <div className="mt-auto flex flex-col">
             <div
               onClick={() => {
-                setCurrentPage('home');
+                setCurrentQuizPage('home');
               }}
               className="self-center flex items-center rounded-[5px] justify-center bg-[#1af] w-[230px] max-w-[230px] h-[40px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#45bdff] flex-shrink-0"
             >
@@ -34,7 +33,7 @@ export default function Sidebar({
             </div>
             <div
               onClick={() => {
-                setCurrentPage('home');
+                setCurrentQuizPage('home');
               }}
               className="self-center flex items-center rounded-[5px] justify-center bg-[#f33] w-[230px] max-w-[230px] h-[40px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#ff6262] flex-shrink-0"
             >
@@ -45,9 +44,9 @@ export default function Sidebar({
       </div>
       <div className="flex text-[12px] w-[250px] rounded-default flex-col text-gray_text ml-4 mb-4 py-2 bg-[#000]/60 backdrop-saturate-[80%] text-center mt-auto justify-between">
         <p>Copyright © 2024 ClassClick B.V.</p>
-        <p>FOR</p>
+        <p>For</p>
         <p>De Haagse Hogeschool</p>
-        <p>BY</p>
+        <p>By</p>
         <p>Thijs Kamphuis</p>
         <p>Daan Breur</p>
         <p>Manu Kapel</p>
@@ -59,7 +58,7 @@ export default function Sidebar({
           className="mt-auto flex-grow rounded-default py-2 bg-[#000]/60 backdrop-saturate-[80%] text-center ml-4 mb-4 cursor-pointer transition-colors duration-150 ease-in-out hover:text-accent"
           href="https://classclick.nl"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           classclick.nl
         </a>
@@ -67,8 +66,8 @@ export default function Sidebar({
           className="mt-auto w-[50px] rounded-default py-2 bg-[#000]/60 backdrop-saturate-[80%] flex justify-center ml-2 mb-4 mr-2 cursor-pointer transition-colors duration-150 ease-in-out hover:text-accent"
           href="https://classclicker.nl"
           target="_blank"
-          rel="noreferrer"
-          title="SOURCE CODE"
+          rel="noreferrer noopener"
+          title="Sourcecode"
         >
           <Icons.BiCodeBlock size={24} />
         </a>

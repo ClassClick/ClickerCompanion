@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
-import { IDevice } from './types';
+import React from 'react';
+import { IDevice, SerialClickerEvent, SerialHubEvent } from './types';
 
 /**
  * @name LineBreakTransformer
@@ -45,7 +46,7 @@ class JSONTransformer {
  * Does all things serial :*((
  */
 export default class SerialHelper {
-  private static _instance: SerialHelper;
+  // private static _instance: SerialHelper;
 
   private serialPort: SerialPort | null = null;
 
@@ -59,16 +60,37 @@ export default class SerialHelper {
 
   private reader: ReadableStreamDefaultReader<any> | null = null;
 
-  private connectedDevices: IDevice[] = [];
+  public connectedDevices: IDevice[] = [];
 
-  private foundDevices: IDevice[] = [];
+  public foundDevices: IDevice[] = [];
 
   public connected: boolean = false;
 
+  private foundDeviceCallback: React.Dispatch<
+    React.SetStateAction<IDevice[]>
+  > | null = null;
+
+  private connectedDeviceCallback: React.Dispatch<
+    React.SetStateAction<IDevice[]>
+  > | null = null;
+
   constructor() {}
 
+  setStateFunctions(
+    _connectedDeviceCallback: React.Dispatch<React.SetStateAction<IDevice[]>>,
+    _foundDeviceCallback: React.Dispatch<React.SetStateAction<IDevice[]>>,
+  ) {
+    this.connectedDeviceCallback = _connectedDeviceCallback;
+    this.foundDeviceCallback = _foundDeviceCallback;
+  }
+
   async connect() {
-    this.serialPort = await navigator.serial.requestPort();
+    try {
+      this.serialPort = await navigator.serial.requestPort();
+    } catch (err) {
+      return;
+    }
+
     await this.serialPort.open({ baudRate: 115200 });
 
     const encoder = new TextEncoderStream();
@@ -84,6 +106,15 @@ export default class SerialHelper {
     this.reader = this.inputStream.getReader();
 
     this.connected = true;
+
+    this.connectedDevices = [];
+    this.foundDevices = [];
+
+    if (this.connectedDeviceCallback != null)
+      this.connectedDeviceCallback(this.connectedDevices);
+    if (this.foundDeviceCallback != null)
+      this.foundDeviceCallback(this.foundDevices);
+
     this.readLoop();
   }
 
@@ -101,7 +132,7 @@ export default class SerialHelper {
           JSON.stringify({
             type: 'remove_pairing',
             data: { macaddr: device.mac_address },
-          } as ClickerEvent),
+          } as SerialHubEvent),
         );
       });
 
@@ -118,12 +149,15 @@ export default class SerialHelper {
     }
 
     this.connected = false;
+    if (this.connectedDeviceCallback != null)
+      this.connectedDeviceCallback(this.connectedDevices);
+    if (this.foundDeviceCallback != null)
+      this.foundDeviceCallback(this.foundDevices);
   }
 
   private async readLoop() {
     if (!this.reader) return;
 
-    console.log('test');
     while (this.connected) {
       // eslint-disable-next-line no-await-in-loop
       const { value, done } = await this.reader.read();
@@ -147,7 +181,7 @@ export default class SerialHelper {
     writer.releaseLock();
   }
 
-  private handleEvent(event: HubEvent) {
+  private handleEvent(event: SerialClickerEvent) {
     switch (event.type) {
       case 'pairing':
         if (
@@ -160,20 +194,28 @@ export default class SerialHelper {
           id: event.data.id,
           mac_address: event.data.macaddr,
         } as IDevice);
-        // TODO: trigger a rerender in react :3
+
+        if (this.connectedDeviceCallback != null) {
+          this.connectedDeviceCallback(this.connectedDevices);
+        }
+        if (this.foundDeviceCallback != null) {
+          this.foundDeviceCallback(this.foundDevices);
+        }
         break;
       case 'answer':
         break;
       case 'power_status':
         break;
+      default:
+        break;
     }
   }
 
-  public peerDevice(id: number) {
+  public pairDevice(id: number) {
     if (this.connectedDevices.some((obj) => obj.id === id)) return;
     if (!this.foundDevices.some((obj) => obj.id === id)) return;
 
-    let device: IDevice | undefined = this.foundDevices.find(
+    const device: IDevice | undefined = this.foundDevices.find(
       (obj) => obj.id === id,
     );
 
@@ -184,66 +226,44 @@ export default class SerialHelper {
           data: {
             macaddr: device.mac_address,
           },
-        } as ClickerEvent),
+        } as SerialHubEvent),
       );
 
       this.connectedDevices.push(device as IDevice);
       this.foundDevices = this.foundDevices.filter((obj) => obj.id !== id);
-      // TODO: trigger a rerender in react :3
+
+      if (this.connectedDeviceCallback != null)
+        this.connectedDeviceCallback(this.connectedDevices);
+      if (this.foundDeviceCallback != null)
+        this.foundDeviceCallback(this.foundDevices);
+    }
+  }
+
+  public removeDevice(id: number) {
+    if (!this.connectedDevices.some((obj) => obj.id === id)) return;
+
+    const device: IDevice | undefined = this.connectedDevices.find(
+      (obj) => obj.id === id,
+    );
+
+    if (device) {
+      this.writeToStream(
+        JSON.stringify({
+          type: 'remove_pairing',
+          data: {
+            macaddr: device.mac_address,
+          },
+        } as SerialHubEvent),
+      );
+
+      this.connectedDevices = this.connectedDevices.filter(
+        (obj) => obj.id !== id,
+      );
+
+      if (this.connectedDeviceCallback != null)
+        this.connectedDeviceCallback(this.connectedDevices);
+      if (this.foundDeviceCallback != null)
+        this.foundDeviceCallback(this.foundDevices);
     }
   }
 }
-
-type HubEvent =
-  | {
-      type: 'pairing';
-      data: {
-        id: Number;
-        macaddr: string;
-      };
-    }
-  | {
-      type: 'answer';
-      data: { id: Number; timeToAnswer: Number; answer: Number };
-    }
-  | {
-      type: 'power_status';
-      data: {
-        id: Number;
-        isCharging: boolean;
-        usbPowerConnected: boolean;
-        batteryVoltage: Number;
-      };
-    };
-
-type ClickerEvent =
-  | {
-      type: 'set_id';
-      data: {
-        id: Number;
-      };
-    }
-  | {
-      type: 'end_question';
-      data: {
-        correct_answer: Number;
-      };
-    }
-  | {
-      type: 'new_question';
-      data: {
-        amount_answers: Number;
-      };
-    }
-  | {
-      type: 'remove_pairing';
-      data: {
-        macaddr: string;
-      };
-    }
-  | {
-      type: 'accept_pairing';
-      data: {
-        macaddr: string;
-      };
-    };

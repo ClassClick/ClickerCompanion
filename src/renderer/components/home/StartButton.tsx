@@ -17,7 +17,7 @@ export default function StartButton({
   return (
     <div
       onClick={() => {
-        setCurrentPage('quizinit');
+        setCurrentPage('quiz');
       }}
       className="flex items-center rounded-[5px] justify-center bg-accent w-[120px] max-w-[120px] h-[60px] m-2 cursor-pointer transition-colors duration-150 ease-in-out hover:bg-[#ff52b6] flex-shrink-0 ml-3 "
     >

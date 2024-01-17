@@ -2,9 +2,14 @@ import '../../globals.css';
 import '../../fonts.css';
 import 'tailwindcss/tailwind.css';
 import React from 'react';
-import { Props } from '../../types';
 import QuestionWrapper from '../../components/quiz/quizquestion/QuestionWrapper';
 import Question from '../../components/quiz/quizquestion/Question';
+
+type Props = {
+  setCurrentQuizPage: React.Dispatch<
+    React.SetStateAction<'quizinit' | 'quizquestion' | 'quizend'>
+  >;
+};
 
 export default function QuizQuestion({ setCurrentPage }: Props) {
   return (

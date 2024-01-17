@@ -1,23 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/menuview/Home';
 import Quizzes from './pages/menuview/Quizzes';
 import Reports from './pages/menuview/Reports';
 import Settings from './pages/menuview/Settings';
-import QuizInit from './pages/quiz/QuizInit';
-import QuizQuestion from './pages/quiz/QuizQuestion';
-import QuizEnd from './pages/quiz/QuizEnd';
+import QuizWrapper from './pages/quiz/QuizWrapper';
 
-import { IPageNames } from './types';
+import { IDevice, IPageNames, IQuiz } from './types';
+import SerialHelper from './SerialHelper';
 
 import './globals.css';
 import './fonts.css';
 import 'tailwindcss/tailwind.css';
 
+const serialHelper = new SerialHelper();
+
 function Renderer() {
   const [currentPage, setCurrentPage] = useState<IPageNames>('home');
-  // const [selectedQuiz, setSelectedQuiz] = useState<IQuiz>({} as IQuiz);
+
+  const [selectedQuiz, setSelectedQuiz] = useState<IQuiz>({} as IQuiz);
+  const [foundDevices, setFoundDevices] = useState<IDevice[]>([]);
+  const [connectedDevices, setConnectedDevices] = useState<IDevice[]>([]);
+
+  serialHelper.setStateFunctions(setConnectedDevices, setFoundDevices);
+
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 2000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   if (currentPage === 'quizzes')
     return <Quizzes setCurrentPage={setCurrentPage} />;
@@ -25,16 +41,19 @@ function Renderer() {
     return <Reports setCurrentPage={setCurrentPage} />;
   if (currentPage === 'settings')
     return <Settings setCurrentPage={setCurrentPage} />;
-  if (currentPage === 'home')
-    return <Home setCurrentPage={setCurrentPage} />;
-  if (currentPage === 'quizinit')
-    return <QuizInit setCurrentPage={setCurrentPage} />;
-  if (currentPage === 'quizquestion')
-    return <QuizQuestion setCurrentPage={setCurrentPage} />;
-  if (currentPage === 'quizend')
-    return <QuizEnd setCurrentPage={setCurrentPage} />;
+  if (currentPage === 'quiz')
+    return (
+      <QuizWrapper
+        selectedQuiz={selectedQuiz}
+        setFoundDevices={setFoundDevices}
+        foundDevices={foundDevices}
+        setConnectedDevices={setConnectedDevices}
+        connectedDevices={connectedDevices}
+        serial={serialHelper}
+      />
+    );
 
-  return <Home setCurrentPage={setCurrentPage} />;
+  return <Home setCurrentPage={setCurrentPage} serial={serialHelper} />;
 }
 
 export default function App() {

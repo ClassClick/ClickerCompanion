@@ -20,6 +20,10 @@
     --medium-background: #2d2d2d;
     --light-background: #3b3b3b;
     --accent: #ed018a;
+    --cyan: #00FFFF;
+    --magenta: #FF00FF;
+    --yellow: #FFFF00;
+    --green: #19FF19;
   }
 }
 ::-webkit-scrollbar {
@@ -34,6 +38,10 @@
 ::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 5px;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 * {

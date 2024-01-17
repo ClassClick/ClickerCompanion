@@ -4,13 +4,14 @@ import '../../fonts.css';
 import 'tailwindcss/tailwind.css';
 import StartButton from './StartButton';
 import EditButton from './EditButton';
+import { Props } from '../../types';
 
 type IProps = {
   name: String;
   desc: String;
 };
 
-export default function Quiz({ name, desc }: IProps) {
+export default function Quiz({ setCurrentPage, name, desc }: Props & IProps) {
   return (
     <div className="flex flex-row justify-between bg-[#000]/60 rounded-default h-[75px] min-h-[75px] max-h-[0%] w-full min-w-[400px] mb-1 overflow-hidden">
       <div className="text-left ml-2 ">
@@ -19,7 +20,7 @@ export default function Quiz({ name, desc }: IProps) {
       </div>
       <div className="flex flex-row">
         <EditButton name="EDIT" />
-        <StartButton name="PLAY" />
+        <StartButton name="PLAY" setCurrentPage={setCurrentPage} />
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
 import { IQuestion, Props } from '../../types';
 import { TestQuiz, TestQuizQuestions } from './TestQuiz';
+import { DemoQuiz, DemoQuizQuestions } from './DemoQuiz';
+
 
 export default function QuizWrapper({
   // selectedQuiz, // TODO: USE THIS AGAIN PLEASE
@@ -20,8 +22,8 @@ export default function QuizWrapper({
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  const currentQuestion = TestQuizQuestions[selectedQuestion];
-  const selectedQuiz = TestQuiz;
+  const currentQuestion = DemoQuizQuestions[selectedQuestion];
+  const selectedQuiz = DemoQuiz;
 
   function countAnswers(question: IQuestion): number {
     let count = 0;
@@ -37,7 +39,7 @@ export default function QuizWrapper({
     if (quizStarted && currentQuizPage === 'quizinit') {
       setCurrentQuizPage('quizquestion');
       setSelectedQuestion(0);
-      serial?.askQuestion(countAnswers(TestQuizQuestions[0]));
+      serial?.askQuestion(countAnswers(DemoQuizQuestions[0]));
     }
 
     let timerId: any = null;
@@ -53,7 +55,7 @@ export default function QuizWrapper({
           setTimeRemaining(3);
         } else {
           setShowAnswer(false);
-          if (selectedQuestion + 1 >= TestQuizQuestions.length) {
+          if (selectedQuestion + 1 >= DemoQuizQuestions.length) {
             serial?.resetQuestion();
             setCurrentQuizPage('quizend');
             setSelectedQuestion(0);
@@ -62,7 +64,7 @@ export default function QuizWrapper({
           } else {
             setSelectedQuestion((prevCount) => prevCount + 1);
             serial?.askQuestion(
-              countAnswers(TestQuizQuestions[selectedQuestion + 1]),
+              countAnswers(DemoQuizQuestions[selectedQuestion + 1]),
             );
           }
           setTimeRemaining(10);

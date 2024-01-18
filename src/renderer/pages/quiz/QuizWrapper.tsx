@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QuizEnd from './QuizEnd';
 import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
-import { Props } from '../../types';
+import { IQuestion, Props } from '../../types';
 import { TestQuiz, TestQuizQuestions } from './TestQuiz';
 
 export default function QuizWrapper({
@@ -20,54 +20,64 @@ export default function QuizWrapper({
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  if (quizStarted && currentQuizPage === 'quizinit') {
-    setCurrentQuizPage('quizquestion');
-    setSelectedQuestion(0);
-  }
-
   const currentQuestion = TestQuizQuestions[selectedQuestion];
   const selectedQuiz = TestQuiz;
 
-  // eslint-disable-next-line consistent-return
+  function countAnswers(question: IQuestion): number {
+    let count = 0;
+    for (let i = 1; i <= 4; i += 1) {
+      if (question[`answer_${i}`] !== null) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
   useEffect(() => {
+    if (quizStarted && currentQuizPage === 'quizinit') {
+      setCurrentQuizPage('quizquestion');
+      setSelectedQuestion(0);
+      serial?.askQuestion(countAnswers(TestQuizQuestions[0]));
+    }
+
+    let timerId: any = null;
     if (quizStarted) {
       if (timeRemaining > 0) {
-        const timerId = setInterval(() => {
+        timerId = setInterval(() => {
           setTimeRemaining((prevCount) => prevCount - 1);
         }, 1000);
-        return () => clearInterval(timerId);
-      }
-      if (timeRemaining === 0 && !showAnswer) {
-        const timerId = setInterval(() => {
+      } else if (timeRemaining === 0) {
+        if (!showAnswer) {
           setShowAnswer(true);
           serial?.showAnswer(currentQuestion.answer);
           setTimeRemaining(3);
-        }, 1000);
-        return () => clearInterval(timerId);
-      }
-      if (timeRemaining === 0 && showAnswer) {
-        const timerId = setInterval(() => {
+        } else {
           setShowAnswer(false);
           if (selectedQuestion + 1 >= TestQuizQuestions.length) {
             serial?.resetQuestion();
             setCurrentQuizPage('quizend');
             setSelectedQuestion(0);
             setShowAnswer(false);
+            setQuizStarted(false);
           } else {
             setSelectedQuestion((prevCount) => prevCount + 1);
+            serial?.askQuestion(
+              countAnswers(TestQuizQuestions[selectedQuestion + 1]),
+            );
           }
           setTimeRemaining(10);
-        }, 1000);
-        return () => clearInterval(timerId);
+        }
       }
     }
+    return () => clearInterval(timerId);
   }, [
     timeRemaining,
     showAnswer,
     selectedQuestion,
-    serial,
-    currentQuestion.answer,
     quizStarted,
+    serial,
+    currentQuestion,
+    currentQuizPage,
   ]);
 
   if (currentQuizPage === 'quizinit')

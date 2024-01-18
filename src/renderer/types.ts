@@ -47,10 +47,7 @@ export interface IQuestion {
   answer_2: string | null;
   answer_3: string | null;
   answer_4: string | null;
-  answer_1_valid: boolean;
-  answer_2_valid: boolean;
-  answer_3_valid: boolean;
-  answer_4_valid: boolean;
+  answer: number;
 }
 
 export interface IQuiz {
@@ -77,3 +74,57 @@ export type Props = {
   setConnectedDevices?: React.Dispatch<React.SetStateAction<IDevice[]>>;
   serial?: SerialHelper;
 };
+
+export type SerialClickerEvent =
+  | {
+      type: 'pairing';
+      data: {
+        id: number;
+        macaddr: string;
+      };
+    }
+  | {
+      type: 'answer';
+      data: { id: number; timeToAnswer: number; answer: number };
+    }
+  | {
+      type: 'power_status';
+      data: {
+        id: number;
+        isCharging: boolean;
+        usbPowerConnected: boolean;
+        batteryVoltage: number;
+      };
+    };
+
+export type SerialHubEvent =
+  | {
+      type: 'set_id';
+      data: {
+        id: number;
+      };
+    }
+  | {
+      type: 'end_question';
+      data: {
+        correct_answer: number;
+      };
+    }
+  | {
+      type: 'new_question';
+      data: {
+        amount_answers: number;
+      };
+    }
+  | {
+      type: 'remove_pairing';
+      data: {
+        macaddr: string;
+      };
+    }
+  | {
+      type: 'accept_pairing';
+      data: {
+        macaddr: string;
+      };
+    };

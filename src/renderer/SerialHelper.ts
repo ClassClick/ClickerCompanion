@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
 import React from 'react';
+// eslint-disable-next-line import/no-cycle
 import { IDevice, SerialClickerEvent, SerialHubEvent } from './types';
 
 /**
@@ -213,6 +214,39 @@ export default class SerialHelper {
       default:
         break;
     }
+  }
+
+  public showAnswer(answer: number) {
+    this.writeToStream(
+      JSON.stringify({
+        type: 'end_question',
+        data: {
+          correct_answer: answer,
+        },
+      } as SerialHubEvent),
+    );
+  }
+
+  public askQuestion(answers: number) {
+    this.writeToStream(
+      JSON.stringify({
+        type: 'new_question',
+        data: {
+          amount_answers: answers,
+        },
+      } as SerialHubEvent),
+    );
+  }
+
+  public resetQuestion() {
+    this.writeToStream(
+      JSON.stringify({
+        type: 'new_question',
+        data: {
+          amount_answers: 0,
+        },
+      } as SerialHubEvent),
+    );
   }
 
   public pairDevice(id: number) {

@@ -22,13 +22,13 @@ export default function QuizQuestion({
       <Question
         title={question.question}
         answer1={question.answer_1}
-        answer1_valid={question.answer_1_valid}
+        answer1_valid={question.answer === 1}
         answer2={question.answer_2}
-        answer2_valid={question.answer_2_valid}
+        answer2_valid={question.answer === 2}
         answer3={question.answer_3}
-        answer3_valid={question.answer_3_valid}
+        answer3_valid={question.answer === 3}
         answer4={question.answer_4}
-        answer4_valid={question.answer_4_valid}
+        answer4_valid={question.answer === 4}
         timeRemaining={timeRemaining}
         showAnswer={showAnswer}
       />

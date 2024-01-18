@@ -35,7 +35,7 @@ export interface IAnswer {
   device_id: number;
   question_id: number;
   room_id: number;
-  timestamp: Date;
+  timeToAnswer: Date;
   answer: string; // TODO: make better fucking name for this
 }
 

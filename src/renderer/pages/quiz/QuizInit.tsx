@@ -53,7 +53,7 @@ export default function QuizInit({
             </DevicesList>
           </div>
         </div>
-        <div className="flex flex-row bg-[#000]/60 rounded-default h-[100px] m-2 justify-end">
+        <div className="flex flex-row h-[100px] m-2 justify-end">
           <div
             onClick={() => {
               setQuizStarted(true);

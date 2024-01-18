@@ -2,7 +2,7 @@
 
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { IDevice, SerialClickerEvent, SerialHubEvent } from './types';
+import { IAnswer, IDevice, SerialClickerEvent, SerialHubEvent } from './types';
 
 /**
  * @name LineBreakTransformer
@@ -74,6 +74,8 @@ export default class SerialHelper {
   private connectedDeviceCallback: React.Dispatch<
     React.SetStateAction<IDevice[]>
   > | null = null;
+
+  public answers: SerialClickerEvent[];
 
   constructor() {}
 
@@ -208,6 +210,7 @@ export default class SerialHelper {
         }
         break;
       case 'answer':
+        this.answers.push(event);
         break;
       case 'power_status':
         break;

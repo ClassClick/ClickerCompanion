@@ -4,19 +4,18 @@ import '../../fonts.css';
 import 'tailwindcss/tailwind.css';
 import StartButton from './StartButton';
 import EditButton from './EditButton';
-import { Props } from '../../types';
+import { IQuiz, Props } from '../../types';
 
 type IProps = {
-  name: String;
-  desc: String;
+  quiz: IQuiz;
 };
 
-export default function Quiz({ setCurrentPage, name, desc }: Props & IProps) {
+export default function Quiz({ setCurrentPage, quiz }: Props & IProps) {
   return (
     <div className="flex flex-row justify-between bg-[#000]/60 rounded-default h-[75px] min-h-[75px] max-h-[0%] w-full min-w-[400px] mb-1 overflow-hidden">
       <div className="text-left ml-2 ">
-        <p className="">{name}</p>
-        <p className="text-gray_text">{desc}</p>
+        <p className="">{quiz.title}</p>
+        <p className="text-gray_text">{quiz.description}</p>
       </div>
       <div className="flex flex-row">
         <EditButton name="EDIT" />

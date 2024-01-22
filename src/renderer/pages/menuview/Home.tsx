@@ -33,6 +33,7 @@ export default function Home({
         <RecentList name="Recent Quizzes">
           {quizzes.map((quiz) => (
             <RecentQuiz
+              key={quiz.id}
               quiz={quiz}
               setCurrentPage={setCurrentPage}
               setSelectedQuiz={setSelectedQuiz}

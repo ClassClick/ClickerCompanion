@@ -1,28 +1,38 @@
 import '../../globals.css';
 import '../../fonts.css';
 import 'tailwindcss/tailwind.css';
-import React from 'react';
-import { Props } from '../../types';
+import React, { useEffect, useState } from 'react';
+import { IQuiz, Props } from '../../types';
 
 import MenuWrapper from '../../components/menuview/MenuWrapper';
 import QuizList from '../../components/quizzes/QuizList';
 import Quiz from '../../components/quizzes/Quiz';
+// eslint-disable-next-line import/no-cycle
+import { getQuizzes } from '../..';
 
 export default function Quizzes({ setCurrentPage }: Props) {
+  const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
+
+  useEffect(() => {
+    async function loadQuizzes() {
+      const ltsquizzes = await getQuizzes();
+      setQuizzes(ltsquizzes);
+      console.log(ltsquizzes);
+    }
+    loadQuizzes();
+  }, []);
+
   return (
     <MenuWrapper setCurrentPage={setCurrentPage}>
       <QuizList name="Quizzes">
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-        <Quiz name="Programming 2" desc="Java arrays lorem ipsum dolor sit amet bing chilling john cena" setCurrentPage={setCurrentPage}/>
-
+        {quizzes.map((quiz) => (
+          <Quiz
+            key={quiz.id}
+            quiz={quiz}
+            setCurrentPage={setCurrentPage}
+            // setSelectedQuiz={setSelectedQuiz}
+          />
+        ))}
       </QuizList>
     </MenuWrapper>
   );

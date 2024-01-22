@@ -2,14 +2,16 @@ import React from 'react';
 import '../../globals.css';
 import '../../fonts.css';
 import 'tailwindcss/tailwind.css';
-import { IPageNames } from '../../types';
+import { IPageNames, IQuiz } from '../../types';
 
 type IProps = {
   name: String;
+  quiz: IQuiz;
 };
 
 export default function StartButton({
   name,
+  quiz,
   setCurrentPage,
 }: IProps & {
   setCurrentPage: React.Dispatch<React.SetStateAction<IPageNames>>;

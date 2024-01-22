@@ -6,7 +6,8 @@ export type Channels =
   | 'ipc-example'
   | 'database-communication'
   | 'database-communication:quizzes'
-  | 'database-communication:questions';
+  | 'database-communication:questions'
+  | 'database-communication:latest-quizzes';
 
 const electronHandler = {
   ipcRenderer: {

@@ -53,7 +53,13 @@ function Renderer() {
       />
     );
 
-  return <Home setCurrentPage={setCurrentPage} serial={serialHelper} />;
+  return (
+    <Home
+      setSelectedQuiz={setSelectedQuiz}
+      setCurrentPage={setCurrentPage}
+      serial={serialHelper}
+    />
+  );
 }
 
 export default function App() {

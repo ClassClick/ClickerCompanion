@@ -11,6 +11,10 @@ export type IDatabaseQuery =
     }
   | {
       type: 'request';
+      requestFor: 'latest-quizzes';
+    }
+  | {
+      type: 'request';
       requestFor: 'quiz';
       quizId: number;
     }

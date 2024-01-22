@@ -64,6 +64,15 @@ ipcMain.on('database-communication', async (event, data: IDatabaseQuery) => {
       });
       break;
 
+    case 'latest-quizzes':
+      db.all(
+        'SELECT DISTINCT q.* FROM quizzes q INNER JOIN rooms r ON q.id=r.quiz_id ORDER BY r.started DESC;',
+        (err: any, rows: any) => {
+          event.reply('database-communication:latest-quizzes', rows);
+        },
+      );
+      break;
+
     case 'questions':
       db.all(
         'SELECT * FROM questions q WHERE quiz_id = $id',

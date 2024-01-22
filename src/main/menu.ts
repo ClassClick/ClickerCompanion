@@ -232,17 +232,9 @@ export default class MenuBuilder {
         label: 'Help',
         submenu: [
           {
-            label: 'Wont Find Many Helps Here',
-          },
-          {
-            label: '( ˶ˆ꒳ˆ˵ )',
-          },
-          {
-            label: 'Guess a link to our code (press me mommy)',
+            label: 'Source Code',
             click() {
-              shell.openExternal(
-                'https://github.com/daanbreur/the-challenge-hbo-ict',
-              );
+              shell.openExternal('https://classclicker.nl');
             },
           },
         ],

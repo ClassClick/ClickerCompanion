@@ -8,7 +8,9 @@ import DevicesList from '../../components/quiz/quizinit/DevicesList';
 import PairingDevice from '../../components/quiz/quizinit/PairingDevice';
 import ConnectedDevice from '../../components/quiz/quizinit/ConnectedDevice';
 import SerialHelper from '../../SerialHelper';
-import { IDevice, IQuiz } from '../../types';
+import { IDevice, IQuestion, IQuiz } from '../../types';
+import List from '../../components/quiz/quizinit/List';
+import QuestionCard from '../../components/quiz/quizinit/QuestionCard';
 
 type Props = {
   setCurrentQuizPage: React.Dispatch<
@@ -37,9 +39,7 @@ export default function QuizInit({
     >
       <div className="flex flex-col w-full">
         <div className="flex flex-row flex-grow mt-2 mx-2">
-          <div className="flex flex-col grow items-center">
-            <p>quiz info ofzo</p>
-          </div>
+          <div className="flex flex-col grow items-center"></div>
           <div className="flex flex-row">
             <DevicesList name="Found Devices">
               {foundDevices.map((device) => (

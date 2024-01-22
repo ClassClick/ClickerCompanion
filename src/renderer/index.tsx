@@ -29,6 +29,21 @@ export async function getQuizzes(): Promise<IQuiz[]> {
   });
 }
 
+export async function getLatestQuizzes(): Promise<IQuiz[]> {
+  return new Promise((resolve) => {
+    window.electron.ipcRenderer.once(
+      'database-communication:latest-quizzes',
+      (arg) => {
+        const data: IQuiz[] = arg as IQuiz[];
+        resolve(data);
+      },
+    );
+    window.electron.ipcRenderer.sendMessage('database-communication', {
+      requestFor: 'latest-quizzes',
+    } as IDatabaseQuery);
+  });
+}
+
 export async function getQuizQuestions(quizId: Number): Promise<IQuestion[]> {
   return new Promise((resolve) => {
     window.electron.ipcRenderer.once(

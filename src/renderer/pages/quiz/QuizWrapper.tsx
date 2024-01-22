@@ -4,11 +4,10 @@ import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
 import { IQuestion, Props } from '../../types';
 import { TestQuiz, TestQuizQuestions } from './TestQuiz';
-import { DemoQuiz, DemoQuizQuestions } from './DemoQuiz';
-
+import { getQuizQuestions } from '../..';
 
 export default function QuizWrapper({
-  // selectedQuiz, // TODO: USE THIS AGAIN PLEASE
+  selectedQuiz, // TODO: USE THIS AGAIN PLEASE
   serial,
   foundDevices,
   connectedDevices,
@@ -22,16 +21,29 @@ export default function QuizWrapper({
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  const currentQuestion = DemoQuizQuestions[selectedQuestion];
-  const selectedQuiz = DemoQuiz;
+  const [quizQuestions, setQuizQuestions] = useState<IQuestion[]>([]);
+  const currentQuestion = quizQuestions[selectedQuestion];
+
+  useEffect(() => {
+    async function getQuizQuestion() {
+      if (selectedQuiz) {
+        if (selectedQuiz !== null) {
+          console.log(selectedQuiz);
+          const ltsquizzes = await getQuizQuestions(selectedQuiz.id);
+          setQuizQuestions(ltsquizzes);
+          console.log(ltsquizzes);
+        }
+      }
+    }
+    getQuizQuestion();
+  }, [selectedQuiz]);
 
   function countAnswers(question: IQuestion): number {
     let count = 0;
-    for (let i = 1; i <= 4; i += 1) {
-      if (question[`answer_${i}`] !== null) {
-        count += 1;
-      }
-    }
+    if (question.answer_1 !== null) count += 1;
+    if (question.answer_2 !== null) count += 1;
+    if (question.answer_3 !== null) count += 1;
+    if (question.answer_4 !== null) count += 1;
     return count;
   }
 

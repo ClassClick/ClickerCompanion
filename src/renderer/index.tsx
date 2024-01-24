@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 // eslint-disable-next-line import/no-cycle
 import App from './App';
-import { IDatabaseQuery, IQuestion, IQuiz } from './types';
+import { IDatabaseQuery, IQuestion, IQuiz, IRoom } from './types';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
@@ -24,6 +24,7 @@ export async function getQuizzes(): Promise<IQuiz[]> {
       },
     );
     window.electron.ipcRenderer.sendMessage('database-communication', {
+      type: 'request',
       requestFor: 'quizzes',
     } as IDatabaseQuery);
   });
@@ -39,6 +40,7 @@ export async function getLatestQuizzes(): Promise<IQuiz[]> {
       },
     );
     window.electron.ipcRenderer.sendMessage('database-communication', {
+      type: 'request',
       requestFor: 'latest-quizzes',
     } as IDatabaseQuery);
   });
@@ -54,7 +56,25 @@ export async function getQuizQuestions(quizId: Number): Promise<IQuestion[]> {
       },
     );
     window.electron.ipcRenderer.sendMessage('database-communication', {
+      type: 'request',
       requestFor: 'questions',
+      quizId,
+    } as IDatabaseQuery);
+  });
+}
+
+export async function getNewRoom(quizId: Number): Promise<IRoom> {
+  return new Promise((resolve) => {
+    window.electron.ipcRenderer.once(
+      'database-communication:new-room',
+      (arg) => {
+        const data: IRoom = { id: arg, quiz_id: quizId } as IRoom;
+        resolve(data);
+      },
+    );
+    window.electron.ipcRenderer.sendMessage('database-communication', {
+      type: 'insert',
+      insertFor: 'room',
       quizId,
     } as IDatabaseQuery);
   });

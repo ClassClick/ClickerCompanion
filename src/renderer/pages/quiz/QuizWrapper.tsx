@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import QuizEnd from './QuizEnd';
 import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
-import { IQuestion, Props } from '../../types';
-import { getQuizQuestions } from '../..';
+import { IQuestion, IRoom, Props } from '../../types';
+import { getNewRoom, getQuizQuestions } from '../..';
 
 export default function QuizWrapper({
-  selectedQuiz, // TODO: USE THIS AGAIN PLEASE
+  selectedQuiz,
   serial,
   foundDevices,
   connectedDevices,
@@ -21,6 +21,7 @@ export default function QuizWrapper({
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(10);
 
+  const [room, setRoom] = useState<IRoom>({} as IRoom);
   const [quizQuestions, setQuizQuestions] = useState<IQuestion[]>([]);
   const currentQuestion = quizQuestions[selectedQuestion];
 
@@ -47,6 +48,9 @@ export default function QuizWrapper({
 
   useEffect(() => {
     if (quizStarted && currentQuizPage === 'quizinit') {
+      (async () => {
+        setRoom(await getNewRoom(selectedQuiz?.id));
+      })();
       setCurrentQuizPage('quizquestion');
       setSelectedQuestion(0);
       serial?.askQuestion(countAnswers(quizQuestions[0]));
@@ -91,6 +95,7 @@ export default function QuizWrapper({
     currentQuestion,
     currentQuizPage,
     quizQuestions,
+    selectedQuiz?.id,
   ]);
 
   if (currentQuizPage === 'quizinit')

@@ -27,6 +27,11 @@ export type IDatabaseQuery =
       type: 'request';
       requestFor: 'question';
       questionId: number;
+    }
+  | {
+      type: 'insert';
+      insertFor: 'room';
+      quizId: number;
     };
 
 export interface IDevice {

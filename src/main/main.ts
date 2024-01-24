@@ -57,37 +57,55 @@ ipcMain.on('ipc-example', async (event, arg) => {
 });
 
 ipcMain.on('database-communication', async (event, data: IDatabaseQuery) => {
-  switch (data.requestFor) {
-    case 'quizzes':
-      db.all('SELECT * FROM quizzes q;', (err: any, rows: any) => {
-        event.reply('database-communication:quizzes', rows);
-      });
-      break;
+  if (data.type === 'request') {
+    switch (data.requestFor) {
+      case 'quizzes':
+        db.all('SELECT * FROM quizzes q;', (err: any, rows: any) => {
+          event.reply('database-communication:quizzes', rows);
+        });
+        break;
 
-    case 'latest-quizzes':
-      db.all(
-        'SELECT DISTINCT q.* FROM quizzes q INNER JOIN rooms r ON q.id=r.quiz_id ORDER BY r.started DESC;',
-        (err: any, rows: any) => {
-          event.reply('database-communication:latest-quizzes', rows);
-        },
-      );
-      break;
+      case 'latest-quizzes':
+        db.all(
+          'SELECT DISTINCT q.* FROM quizzes q INNER JOIN rooms r ON q.id=r.quiz_id ORDER BY r.started DESC;',
+          (err: any, rows: any) => {
+            event.reply('database-communication:latest-quizzes', rows);
+          },
+        );
+        break;
 
-    case 'questions':
-      db.all(
-        'SELECT * FROM questions q WHERE quiz_id = $id',
-        {
-          $id: data.quizId,
-        },
-        (err: any, rows: any) => {
-          event.reply('database-communication:questions', rows);
-        },
-      );
-      break;
+      case 'questions':
+        db.all(
+          'SELECT * FROM questions q WHERE quiz_id = $id',
+          {
+            $id: data.quizId,
+          },
+          (err: any, rows: any) => {
+            event.reply('database-communication:questions', rows);
+          },
+        );
+        break;
 
-    default:
-      event.reply('database-communication', null);
-      break;
+      default:
+        event.reply('database-communication', null);
+        break;
+    }
+  }
+  if (data.type === 'insert') {
+    switch (data.insertFor) {
+      case 'room': {
+        const stmt = db.prepare('INSERT INTO rooms (quiz_id) VALUES (?)');
+        stmt.run(data.quizId, (err: any) => {
+          event.reply('database-communication:new-room', stmt.lastId);
+        });
+        stmt.finalize();
+        break;
+      }
+      default: {
+        event.reply('database-communication', null);
+        break;
+      }
+    }
   }
 });
 

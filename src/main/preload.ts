@@ -7,7 +7,8 @@ export type Channels =
   | 'database-communication'
   | 'database-communication:quizzes'
   | 'database-communication:questions'
-  | 'database-communication:latest-quizzes';
+  | 'database-communication:latest-quizzes'
+  | 'database-communication:new-room';
 
 const electronHandler = {
   ipcRenderer: {

@@ -5,12 +5,13 @@ import React from 'react';
 
 import MenuWrapper from '../../components/quiz/quizmenu/MenuWrapper';
 import SerialHelper from '../../SerialHelper';
-import { IQuiz } from '../../types';
+import { IPageNames, IQuiz } from '../../types';
 
 type Props = {
   setCurrentQuizPage: React.Dispatch<
     React.SetStateAction<'quizinit' | 'quizquestion' | 'quizend'>
   >;
+  setCurrentPage: React.Dispatch<IPageNames>;
   setQuizStarted: React.Dispatch<React.SetStateAction<boolean>>;
   serial: SerialHelper;
   selectedQuiz: IQuiz;
@@ -21,12 +22,14 @@ export default function QuizEnd({
   setQuizStarted,
   serial,
   selectedQuiz,
+  setCurrentPage,
 }: Props) {
   return (
     <MenuWrapper
       selectedQuiz={selectedQuiz}
       serial={serial}
       setCurrentQuizPage={setCurrentQuizPage}
+      setCurrentPage={setCurrentPage}
     >
       <div className="flex flex-col w-full">
         <div className="flex flex-row flex-grow mt-2 mx-2">

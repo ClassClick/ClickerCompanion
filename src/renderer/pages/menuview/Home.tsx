@@ -22,7 +22,6 @@ export default function Home({
     async function getQuizzes() {
       const ltsquizzes = await getLatestQuizzes();
       setQuizzes(ltsquizzes);
-      console.log(ltsquizzes);
     }
     getQuizzes();
   }, []);

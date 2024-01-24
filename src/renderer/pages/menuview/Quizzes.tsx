@@ -10,7 +10,7 @@ import Quiz from '../../components/quizzes/Quiz';
 // eslint-disable-next-line import/no-cycle
 import { getQuizzes } from '../..';
 
-export default function Quizzes({ setCurrentPage }: Props) {
+export default function Quizzes({ setCurrentPage, setSelectedQuiz }: Props) {
   const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Quizzes({ setCurrentPage }: Props) {
             key={quiz.id}
             quiz={quiz}
             setCurrentPage={setCurrentPage}
-            // setSelectedQuiz={setSelectedQuiz}
+            setSelectedQuiz={setSelectedQuiz}
           />
         ))}
       </QuizList>

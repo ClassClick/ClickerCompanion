@@ -14,9 +14,7 @@ export default function ReportList({ name, children }: IProps) {
       <p className="flex justify-center text-[24px] mb-4">{name}</p>
       <div className="flex-grow overflow-y-scroll">
         <div className="flex flex-col max-h-screen">
-          <div className="flex flex-col flex-wrap gap-[19px] p-4">
-            {children}
-          </div>
+          <div className="flex flex-col gap-[19px] p-4">{children}</div>
         </div>
       </div>
     </div>

@@ -36,7 +36,12 @@ function Renderer() {
   }, []);
 
   if (currentPage === 'quizzes')
-    return <Quizzes setCurrentPage={setCurrentPage} />;
+    return (
+      <Quizzes
+        setCurrentPage={setCurrentPage}
+        setSelectedQuiz={setSelectedQuiz}
+      />
+    );
   if (currentPage === 'reports')
     return <Reports setCurrentPage={setCurrentPage} />;
   if (currentPage === 'settings')
@@ -50,6 +55,7 @@ function Renderer() {
         setConnectedDevices={setConnectedDevices}
         connectedDevices={connectedDevices}
         serial={serialHelper}
+        setCurrentPage={setCurrentPage}
       />
     );
 

@@ -12,15 +12,46 @@ export default function Reports({ setCurrentPage }: Props) {
   return (
     <MenuWrapper setCurrentPage={setCurrentPage}>
       <ReportList name="Reports">
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-        <Report name="Programming 2" time={new Date(1704921355000)} players={10}/>
-
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
+        <Report
+          name="Programming 2"
+          time={new Date(1704921355000)}
+          players={10}
+        />
       </ReportList>
     </MenuWrapper>
   );

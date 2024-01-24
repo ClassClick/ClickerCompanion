@@ -3,7 +3,6 @@ import QuizEnd from './QuizEnd';
 import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
 import { IQuestion, Props } from '../../types';
-import { TestQuiz, TestQuizQuestions } from './TestQuiz';
 import { getQuizQuestions } from '../..';
 
 export default function QuizWrapper({
@@ -11,6 +10,7 @@ export default function QuizWrapper({
   serial,
   foundDevices,
   connectedDevices,
+  setCurrentPage,
 }: Props) {
   const [currentQuizPage, setCurrentQuizPage] = useState<
     'quizinit' | 'quizquestion' | 'quizend'
@@ -28,10 +28,8 @@ export default function QuizWrapper({
     async function getQuizQuestion() {
       if (selectedQuiz) {
         if (selectedQuiz !== null) {
-          console.log(selectedQuiz);
           const ltsquizzes = await getQuizQuestions(selectedQuiz.id);
           setQuizQuestions(ltsquizzes);
-          console.log(ltsquizzes);
         }
       }
     }
@@ -51,7 +49,7 @@ export default function QuizWrapper({
     if (quizStarted && currentQuizPage === 'quizinit') {
       setCurrentQuizPage('quizquestion');
       setSelectedQuestion(0);
-      serial?.askQuestion(countAnswers(DemoQuizQuestions[0]));
+      serial?.askQuestion(countAnswers(quizQuestions[0]));
     }
 
     let timerId: any = null;
@@ -67,7 +65,7 @@ export default function QuizWrapper({
           setTimeRemaining(3);
         } else {
           setShowAnswer(false);
-          if (selectedQuestion + 1 >= DemoQuizQuestions.length) {
+          if (selectedQuestion + 1 >= quizQuestions.length) {
             serial?.resetQuestion();
             setCurrentQuizPage('quizend');
             setSelectedQuestion(0);
@@ -76,7 +74,7 @@ export default function QuizWrapper({
           } else {
             setSelectedQuestion((prevCount) => prevCount + 1);
             serial?.askQuestion(
-              countAnswers(DemoQuizQuestions[selectedQuestion + 1]),
+              countAnswers(quizQuestions[selectedQuestion + 1]),
             );
           }
           setTimeRemaining(10);
@@ -92,6 +90,7 @@ export default function QuizWrapper({
     serial,
     currentQuestion,
     currentQuizPage,
+    quizQuestions,
   ]);
 
   if (currentQuizPage === 'quizinit')
@@ -103,6 +102,7 @@ export default function QuizWrapper({
         foundDevices={foundDevices}
         setQuizStarted={setQuizStarted}
         selectedQuiz={selectedQuiz}
+        setCurrentPage={setCurrentPage}
       />
     );
   if (currentQuizPage === 'quizquestion')
@@ -120,6 +120,7 @@ export default function QuizWrapper({
         serial={serial}
         setCurrentQuizPage={setCurrentQuizPage}
         setQuizStarted={setQuizStarted}
+        setCurrentPage={setCurrentPage}
       />
     );
 }

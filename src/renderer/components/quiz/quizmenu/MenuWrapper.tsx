@@ -7,7 +7,7 @@ import PageWrapper from '../../PageWrapper';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import SerialHelper from '../../../SerialHelper';
-import { IQuiz } from '../../../types';
+import { IPageNames, IQuiz } from '../../../types';
 
 type IProps = {
   children: React.ReactNode;
@@ -17,6 +17,7 @@ type Props = {
   setCurrentQuizPage: React.Dispatch<
     React.SetStateAction<'quizinit' | 'quizquestion' | 'quizend'>
   >;
+  setCurrentPage: React.Dispatch<React.SetStateAction<IPageNames>>;
   serial: SerialHelper;
   selectedQuiz: IQuiz;
 };
@@ -26,6 +27,7 @@ export default function MenuWrapper({
   children,
   serial,
   selectedQuiz,
+  setCurrentPage,
 }: Props & IProps) {
   return (
     <PageWrapper>
@@ -33,6 +35,7 @@ export default function MenuWrapper({
         <Sidebar
           selectedQuiz={selectedQuiz}
           setCurrentQuizPage={setCurrentQuizPage}
+          setCurrentPage={setCurrentPage}
         />
         <div className="flex flex-col flex-1 max-h-screen">
           <Topbar serial={serial} />

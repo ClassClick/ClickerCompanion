@@ -30,12 +30,14 @@ export default function QuizInit({
   foundDevices,
   setQuizStarted,
   selectedQuiz,
+  setCurrentPage,
 }: Props) {
   return (
     <MenuWrapper
       selectedQuiz={selectedQuiz}
       serial={serial}
       setCurrentQuizPage={setCurrentQuizPage}
+      setCurrentPage={setCurrentPage}
     >
       <div className="flex flex-col w-full">
         <div className="flex flex-row flex-grow mt-2 mx-2">

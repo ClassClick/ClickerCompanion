@@ -68,6 +68,7 @@ export async function getNewRoom(quizId: Number): Promise<IRoom> {
     window.electron.ipcRenderer.once(
       'database-communication:new-room',
       (arg) => {
+        console.log(arg);
         const data: IRoom = { id: arg, quiz_id: quizId } as IRoom;
         resolve(data);
       },

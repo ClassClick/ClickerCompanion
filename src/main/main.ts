@@ -96,7 +96,7 @@ ipcMain.on('database-communication', async (event, data: IDatabaseQuery) => {
       case 'room': {
         const stmt = db.prepare('INSERT INTO rooms (quiz_id) VALUES (?)');
         stmt.run(data.quizId, (err: any) => {
-          event.reply('database-communication:new-room', stmt.lastId);
+          event.reply('database-communication:new-room', stmt.lastID);
         });
         stmt.finalize();
         break;

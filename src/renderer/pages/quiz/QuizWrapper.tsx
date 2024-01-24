@@ -48,11 +48,16 @@ export default function QuizWrapper({
 
   useEffect(() => {
     if (quizStarted && currentQuizPage === 'quizinit') {
+      serial?.newQuiz();
       (async () => {
-        setRoom(await getNewRoom(selectedQuiz?.id));
+        const _room = await getNewRoom(selectedQuiz?.id);
+        setRoom(_room);
+        serial?.setCurrentRoomId(_room.id);
+        console.log(_room, _room.id);
       })();
       setCurrentQuizPage('quizquestion');
       setSelectedQuestion(0);
+      serial?.setCurrentQuestionId(quizQuestions[0].id);
       serial?.askQuestion(countAnswers(quizQuestions[0]));
     }
 
@@ -77,6 +82,7 @@ export default function QuizWrapper({
             setQuizStarted(false);
           } else {
             setSelectedQuestion((prevCount) => prevCount + 1);
+            serial?.setCurrentQuestionId(quizQuestions[0].id);
             serial?.askQuestion(
               countAnswers(quizQuestions[selectedQuestion + 1]),
             );

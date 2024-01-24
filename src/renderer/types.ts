@@ -45,7 +45,7 @@ export interface IAnswer {
   question_id: number;
   room_id: number;
   timeToAnswer: Date;
-  answer: string; // TODO: make better fucking name for this
+  answer: number;
 }
 
 export interface IQuestion {

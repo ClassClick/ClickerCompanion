@@ -75,7 +75,11 @@ export default class SerialHelper {
     React.SetStateAction<IDevice[]>
   > | null = null;
 
-  public answers: SerialClickerEvent[];
+  public answers: IAnswer[] = [];
+
+  private roomId: number = 0;
+
+  private questionId: number = 0;
 
   constructor() {}
 
@@ -85,6 +89,20 @@ export default class SerialHelper {
   ) {
     this.connectedDeviceCallback = _connectedDeviceCallback;
     this.foundDeviceCallback = _foundDeviceCallback;
+  }
+
+  newQuiz() {
+    this.roomId = 0;
+    this.questionId = 0;
+    this.answers = [];
+  }
+
+  setCurrentRoomId(roomId: number) {
+    this.roomId = roomId;
+  }
+
+  setCurrentQuestionId(questionId: number) {
+    this.questionId = questionId;
   }
 
   async connect() {
@@ -210,7 +228,14 @@ export default class SerialHelper {
         }
         break;
       case 'answer':
-        this.answers.push(event);
+        this.answers.push({
+          question_id: this.questionId,
+          room_id: this.roomId,
+          device_id: event.data.id,
+          timeToAnswer: new Date(event.data.timeToAnswer),
+          answer: event.data.answer,
+        } as IAnswer);
+        console.log(this.answers);
         break;
       case 'power_status':
         break;

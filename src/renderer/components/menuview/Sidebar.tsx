@@ -36,9 +36,9 @@ export default function Sidebar({
       </div>
       <div className="flex text-[12px] w-[250px] rounded-default flex-col text-gray_text ml-4 mb-4 py-2 bg-[#000]/60 backdrop-saturate-[80%] text-center mt-auto justify-between">
         <p>Copyright © 2024 ClassClick B.V.</p>
-        <p>FOR</p>
+        <p>For</p>
         <p>De Haagse Hogeschool</p>
-        <p>BY</p>
+        <p>By</p>
         <p>Thijs Kamphuis</p>
         <p>Daan Breur</p>
         <p>Manu Kapel</p>

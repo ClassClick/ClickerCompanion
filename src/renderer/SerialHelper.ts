@@ -235,7 +235,6 @@ export default class SerialHelper {
           timeToAnswer: new Date(event.data.timeToAnswer),
           answer: event.data.answer,
         } as IAnswer);
-        console.log(this.answers);
         break;
       case 'power_status':
         break;

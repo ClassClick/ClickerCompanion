@@ -53,7 +53,6 @@ export default function QuizWrapper({
         const _room = await getNewRoom(selectedQuiz?.id);
         setRoom(_room);
         serial?.setCurrentRoomId(_room.id);
-        console.log(_room, _room.id);
       })();
       setCurrentQuizPage('quizquestion');
       setSelectedQuestion(0);

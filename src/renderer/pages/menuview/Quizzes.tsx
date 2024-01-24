@@ -17,7 +17,6 @@ export default function Quizzes({ setCurrentPage, setSelectedQuiz }: Props) {
     async function loadQuizzes() {
       const ltsquizzes = await getQuizzes();
       setQuizzes(ltsquizzes);
-      console.log(ltsquizzes);
     }
     loadQuizzes();
   }, []);

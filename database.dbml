@@ -1,0 +1,46 @@
+Table quizzes {
+  id integer [primary key, not null, unique, increment]
+  title varchar [not null]
+  description varchar [not null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table questions {
+  id integer [primary key, not null, unique, increment]
+  quiz_id integer
+  answer_1 varchar
+  answer_2 varchar
+  answer_3 varchar
+  answer_4 varchar
+  answer_1_valid bool
+  answer_2_valid bool
+  answer_3_valid bool
+  answer_4_valid bool
+}
+
+Table answers {
+  id integer [primary key, not null, unique, increment]
+  device_id integer [not null]
+  question_id integer [not null]
+  room_id integer [not null]
+  timestamp timestamp [not null]
+  answer varchar [not null] //idfk een van de 4 opties
+}
+
+Table devices {
+  id integer [primary key, not null, unique, increment]
+  username varchar [not null]
+}
+
+Table rooms {
+  id integer [primary key, not null, unique, increment]
+  quiz_id integer [not null]
+  started timestamp [default: `now()`]
+}
+
+Ref: rooms.quiz_id > quizzes.id
+Ref: questions.quiz_id > quizzes.id
+Ref: answers.question_id > questions.id
+Ref: answers.device_id > devices.id
+Ref: answers.room_id > rooms.id

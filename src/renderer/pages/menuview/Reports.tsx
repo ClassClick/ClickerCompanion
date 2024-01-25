@@ -8,9 +8,9 @@ import MenuWrapper from '../../components/menuview/MenuWrapper';
 import ReportList from '../../components/reports/ReportList';
 import Report from '../../components/reports/Report';
 
-export default function Reports({ setCurrentPage }: Props) {
+export default function Reports({ setCurrentPage, serial }: Props) {
   return (
-    <MenuWrapper setCurrentPage={setCurrentPage}>
+    <MenuWrapper serial={serial} setCurrentPage={setCurrentPage}>
       <ReportList name="Reports">
         <Report
           name="Programming 2"

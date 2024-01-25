@@ -106,6 +106,11 @@ export default class SerialHelper {
   }
 
   async connect() {
+    if (this.serialPort !== null) {
+      this.serialPort.close();
+      this.serialPort = null;
+    }
+
     try {
       this.serialPort = await navigator.serial.requestPort();
     } catch (err) {

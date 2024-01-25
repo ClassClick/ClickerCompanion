@@ -3,7 +3,7 @@ import QuizEnd from './QuizEnd';
 import QuizInit from './QuizInit';
 import QuizQuestion from './QuizQuestion';
 import { IQuestion, IRoom, Props } from '../../types';
-import { getNewRoom, getQuizQuestions } from '../..';
+import { getNewRoom, getQuizQuestions, saveAnswers } from '../..';
 
 export default function QuizWrapper({
   selectedQuiz,
@@ -79,6 +79,7 @@ export default function QuizWrapper({
             setSelectedQuestion(0);
             setShowAnswer(false);
             setQuizStarted(false);
+            saveAnswers(serial?.answers);
           } else {
             setSelectedQuestion((prevCount) => prevCount + 1);
             serial?.setCurrentQuestionId(quizQuestions[0].id);

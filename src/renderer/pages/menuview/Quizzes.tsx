@@ -10,7 +10,11 @@ import Quiz from '../../components/quizzes/Quiz';
 // eslint-disable-next-line import/no-cycle
 import { getQuizzes } from '../..';
 
-export default function Quizzes({ setCurrentPage, setSelectedQuiz }: Props) {
+export default function Quizzes({
+  setCurrentPage,
+  setSelectedQuiz,
+  serial,
+}: Props) {
   const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
 
   useEffect(() => {
@@ -22,7 +26,7 @@ export default function Quizzes({ setCurrentPage, setSelectedQuiz }: Props) {
   }, []);
 
   return (
-    <MenuWrapper setCurrentPage={setCurrentPage}>
+    <MenuWrapper serial={serial} setCurrentPage={setCurrentPage}>
       <QuizList name="Quizzes">
         {quizzes.map((quiz) => (
           <Quiz

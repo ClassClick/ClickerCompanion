@@ -101,6 +101,23 @@ ipcMain.on('database-communication', async (event, data: IDatabaseQuery) => {
         stmt.finalize();
         break;
       }
+      case 'answers': {
+        const stmt = db.prepare(
+          'INSERT INTO answers (device_id,question_id,room_id,"timestamp",answer) VALUES (?,?,?,?,?)',
+        );
+        for (let i = 0; i < data.answers.length; i += 1) {
+          const answer = data.answers[i];
+          stmt.run([
+            answer.device_id,
+            answer.question_id,
+            answer.room_id,
+            answer.timeToAnswer,
+            answer.answer,
+          ]);
+        }
+        stmt.finalize();
+        break;
+      }
       default: {
         event.reply('database-communication', null);
         break;

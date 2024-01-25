@@ -4,36 +4,6 @@ import SerialHelper from './SerialHelper';
 
 export type IPageNames = 'home' | 'quizzes' | 'reports' | 'settings' | 'quiz';
 
-export type IDatabaseQuery =
-  | {
-      type: 'request';
-      requestFor: 'quizzes';
-    }
-  | {
-      type: 'request';
-      requestFor: 'latest-quizzes';
-    }
-  | {
-      type: 'request';
-      requestFor: 'quiz';
-      quizId: number;
-    }
-  | {
-      type: 'request';
-      requestFor: 'questions';
-      quizId: number;
-    }
-  | {
-      type: 'request';
-      requestFor: 'question';
-      questionId: number;
-    }
-  | {
-      type: 'insert';
-      insertFor: 'room';
-      quizId: number;
-    };
-
 export interface IDevice {
   id: number;
   mac_address: String;
@@ -136,4 +106,39 @@ export type SerialHubEvent =
       data: {
         macaddr: string;
       };
+    };
+
+export type IDatabaseQuery =
+  | {
+      type: 'request';
+      requestFor: 'quizzes';
+    }
+  | {
+      type: 'request';
+      requestFor: 'latest-quizzes';
+    }
+  | {
+      type: 'request';
+      requestFor: 'quiz';
+      quizId: number;
+    }
+  | {
+      type: 'request';
+      requestFor: 'questions';
+      quizId: number;
+    }
+  | {
+      type: 'request';
+      requestFor: 'question';
+      questionId: number;
+    }
+  | {
+      type: 'insert';
+      insertFor: 'room';
+      quizId: number;
+    }
+  | {
+      type: 'insert';
+      insertFor: 'answers';
+      answers: IAnswer[];
     };

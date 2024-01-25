@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 // eslint-disable-next-line import/no-cycle
 import App from './App';
-import { IDatabaseQuery, IQuestion, IQuiz, IRoom } from './types';
+import { IAnswer, IDatabaseQuery, IQuestion, IQuiz, IRoom } from './types';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
@@ -28,6 +28,14 @@ export async function getQuizzes(): Promise<IQuiz[]> {
       requestFor: 'quizzes',
     } as IDatabaseQuery);
   });
+}
+
+export async function saveAnswers(answers: IAnswer[]) {
+  window.electron.ipcRenderer.sendMessage('database-communication', {
+    type: 'insert',
+    insertFor: 'answers',
+    answers,
+  } as IDatabaseQuery);
 }
 
 export async function getLatestQuizzes(): Promise<IQuiz[]> {

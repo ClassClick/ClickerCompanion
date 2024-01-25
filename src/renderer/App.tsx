@@ -38,14 +38,15 @@ function Renderer() {
   if (currentPage === 'quizzes')
     return (
       <Quizzes
+        serial={serialHelper}
         setCurrentPage={setCurrentPage}
         setSelectedQuiz={setSelectedQuiz}
       />
     );
   if (currentPage === 'reports')
-    return <Reports setCurrentPage={setCurrentPage} />;
+    return <Reports serial={serialHelper} setCurrentPage={setCurrentPage} />;
   if (currentPage === 'settings')
-    return <Settings setCurrentPage={setCurrentPage} />;
+    return <Settings serial={serialHelper} setCurrentPage={setCurrentPage} />;
   if (currentPage === 'quiz')
     return (
       <QuizWrapper

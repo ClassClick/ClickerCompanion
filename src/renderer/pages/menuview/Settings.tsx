@@ -6,9 +6,9 @@ import { Props } from '../../types';
 
 import MenuWrapper from '../../components/menuview/MenuWrapper';
 
-export default function Settings({ setCurrentPage }: Props) {
+export default function Settings({ setCurrentPage, serial }: Props) {
   return (
-    <MenuWrapper setCurrentPage={setCurrentPage}>
+    <MenuWrapper serial={serial} setCurrentPage={setCurrentPage}>
       <p>settings settings</p>
     </MenuWrapper>
   );
